@@ -22,9 +22,7 @@ export function useFilter({ onFilterStateChange }) {
 
   function initFilterAddEventListener() {
     for (let i = 0; i < filterButtons.length; i++) {
-      filterButtons[i].addEventListener("click", () => {
-        setFilterCheckboxState(i);
-      });
+      filterButtons[i].addEventListener("click", () => setFilterCheckboxState(i));
     }
   }
 

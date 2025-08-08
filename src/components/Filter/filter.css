@@ -5,6 +5,4 @@
   gap: 10px;
   justify-items: center;
   margin-top: 1rem;
-  position: sticky;
-  top: 11rem; /* title div Height 10rem + margin 1rem */
 }

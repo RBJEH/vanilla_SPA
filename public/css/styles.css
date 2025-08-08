@@ -3,3 +3,11 @@
   height: 150vh;
   margin: auto;
 }
+
+#sticky-group {
+  height: 14.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+}

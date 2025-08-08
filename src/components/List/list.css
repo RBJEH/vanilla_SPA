@@ -3,12 +3,9 @@
   margin-top: 1rem;
 }
 
-/* 임시. 블록 안치면 구역 구분이 안감... 완성되면 지워버리기. */
-/* ===================================== */
-#content {
-  border: 1px solid black;
+#content > div:not(:last-child) {
+  margin-bottom: 0.5rem;
 }
-/* ===================================== */
 
 #pagination {
   display: flex;

@@ -20,6 +20,7 @@ import "../public/css/styles.css";
 import Home from "./pages/Home/Home";
 import { initHomeEvent } from "./pages/Home/home.events";
 
-document.getElementById("app").innerHTML = Home();
-
-initHomeEvent();
+(async () => {
+  document.getElementById("app").innerHTML = await Home();
+  initHomeEvent();
+})();

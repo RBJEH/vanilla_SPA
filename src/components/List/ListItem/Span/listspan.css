@@ -1,0 +1,15 @@
+.infos {
+  display: flex;
+}
+
+.hidden-info {
+  visibility: hidden;
+}
+
+.ellipsis {
+  display: inline-block;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
