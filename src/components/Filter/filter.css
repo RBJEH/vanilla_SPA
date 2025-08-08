@@ -1,0 +1,10 @@
+#filter-toggle-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  justify-items: center;
+  margin-top: 1rem;
+  position: sticky;
+  top: 11rem; /* title div Height 10rem + margin 1rem */
+}
