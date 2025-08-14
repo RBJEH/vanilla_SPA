@@ -1,27 +1,97 @@
 import { useFilter } from "../../hooks/useFilter";
-import { usePagination } from "../../hooks/usePagination";
+import { appendCharacters } from "../../hooks/useCharacters";
 
-import { renderListItemsHTML } from "../../utils/listRenderer";
+import { renderListItemsHTML, appendListItemsHTML, initDeleteEvents, initResetEvent } from "../../utils/listRenderer";
+import { patch } from "../../utils/diffUtils";
 
-export function initHomeEvent() {
-  const { initFilterAddEventListener } = useFilter({
-    onFilterStateChange: (id) => {
-      console.log("checked", id);
+let allData = [];
+
+export async function initHomeEvent() {
+  const { initFilterAddEventListener, getCheckedFilter } = useFilter({
+    onFilterStateChange: () => {
+      applyFilter(getCheckedFilter());
     },
+  });
+
+  renderListItemsHTML();
+  initDeleteEvents();
+  initResetEvent();
+
+  let currentPage = 1;
+  let isLoading = false;
+  let lastPage = 10;
+
+  // let firstData = await appendCharacters(currentPage);
+  // allData = [...allData, ...firstData];
+  // applyFilter(getCheckedFilter());
+
+  window.addEventListener("scroll", async () => {
+    if (isLoading) {
+      return;
+    }
+
+    const lastListItem = document.querySelector("#content > :last-child");
+    if (!lastListItem) {
+      return;
+    }
+
+    const lastItemOffset = lastListItem.offsetTop + lastListItem.offsetHeight;
+    const pageOffset = window.scrollY + window.innerHeight;
+
+    if (pageOffset >= lastItemOffset) {
+      if (currentPage < lastPage) {
+        isLoading = true;
+        showLoading();
+
+        currentPage++;
+        let newData = await appendCharacters(currentPage);
+        appendListItemsHTML(newData);
+
+        // if (getCheckedFilter().length > 0) {
+        //   allData = [...allData, ...newData];
+        //   applyFilter(getCheckedFilter());
+        // }
+
+        hideLoading();
+        isLoading = false;
+      }
+    }
   });
 
   initFilterAddEventListener();
+}
 
-  const pagination = usePagination({
-    totalPages: 10,
-    onPageChange: async (page) => {
-      console.log("page", page);
+function showLoading() {
+  document.getElementById("loading").style.display = "flex";
+}
 
-      const listItemsHTML = await renderListItemsHTML(page);
-      document.getElementById("content").innerHTML = listItemsHTML;
-      // list item delete button add listener 재바인딩
-    },
-  });
+function hideLoading() {
+  document.getElementById("loading").style.display = "none";
+}
 
-  pagination.initPaginationAddEventListener();
+function applyFilter(checkedFilter) {
+  let filtered = [...allData];
+
+  if (checkedFilter.includes("btn-filter-alive")) {
+    filtered = filtered.filter((data) => data.died === "");
+  }
+  if (checkedFilter.includes("btn-filter-femeal")) {
+    filtered = filtered.filter((data) => data.gender.toLowerCase() === "femeal");
+  }
+  if (checkedFilter.includes("btn-filter-tvseries")) {
+    filtered = filtered.filter((data) => data.tvSeries.length === 0);
+  }
+
+  // const content = document.getElementById("content");
+  // if (content) {
+  //   content.innerHTML = "";
+  // }
+
+  if (filtered.length === 0) {
+    hideLoading();
+  }
+
+  patch("#content", filtered);
+
+  // appendListItemsHTML(filtered);
 }

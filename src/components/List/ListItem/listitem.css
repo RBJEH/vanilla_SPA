@@ -9,24 +9,25 @@
 }
 
 .summary-content {
-  width: 100%;
+  width: 80%;
   height: 100%;
   padding: 10px;
-  flex: 0 0 80%;
+  /* flex: 0 0 80%; */
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: minmax(0, 50%) minmax(0, 50%);
   grid-template-rows: repeat(3, 1fr);
   align-items: center;
   gap: 10px;
 }
 
 .delete-content {
-  width: 100%;
+  width: 20%;
   height: 100%;
-  flex: 0 0 20%;
+  padding: 10px;
+  /* flex: 0 0 20%; */
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
 }

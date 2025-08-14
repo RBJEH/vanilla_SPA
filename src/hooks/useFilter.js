@@ -1,23 +1,37 @@
 export function useFilter({ onFilterStateChange }) {
-  const filterCheckboxs = [
-    document.getElementById("toggle-filter-alive"),
-    document.getElementById("toggle-filter-femeal"),
-    document.getElementById("toggle-filter-tvseries"),
-  ];
   const filterButtons = [
     document.getElementById("btn-filter-alive"),
     document.getElementById("btn-filter-femeal"),
     document.getElementById("btn-filter-tvseries"),
   ];
 
+  let currentCheckedFilter = [];
+
   function setFilterCheckboxState(idx) {
-    filterCheckboxs[idx].checked = !filterCheckboxs[idx].checked;
-    filterButtons[idx].classList.toggle("checked", filterCheckboxs[idx].checked);
-    onFilterStateChange(getCheckboxState());
+    if (filterButtons[idx].classList.contains("checked")) {
+      filterButtons[idx].classList.remove("checked");
+    } else {
+      filterButtons[idx].classList.add("checked");
+    }
+
+    currentCheckedFilter = getCheckboxState();
+    onFilterStateChange(currentCheckedFilter);
   }
 
   function getCheckboxState() {
-    return filterCheckboxs.map((cb, index) => (cb.checked ? filterButtons[index].id : null)).filter(Boolean);
+    return filterButtons
+      .map((btn, index) => (btn.classList.contains("checked") ? filterButtons[index].id : null))
+      .filter(Boolean);
+  }
+
+  function getCheckedFilter() {
+    const buttons = [
+      document.getElementById("btn-filter-alive"),
+      document.getElementById("btn-filter-femeal"),
+      document.getElementById("btn-filter-tvseries"),
+    ];
+
+    return buttons.map((btn, index) => (btn.classList.contains("checked") ? buttons[index].id : null)).filter(Boolean);
   }
 
   function initFilterAddEventListener() {
@@ -28,5 +42,6 @@ export function useFilter({ onFilterStateChange }) {
 
   return {
     initFilterAddEventListener,
+    getCheckedFilter,
   };
 }

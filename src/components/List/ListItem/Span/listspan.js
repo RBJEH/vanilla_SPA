@@ -4,7 +4,7 @@ export default function ListSpan(idx, name, aliases, title, books, tvSeries) {
   return `    
     <div class="infos">
         <label for="name-${idx}">name:</label>
-        <span id="name-${idx}">${name}</span>
+        <span id="name-${idx}" class="ellipsis">${name}</span>
     </div>
     <div class="infos">
         <label for="aliases-${idx}">aliases:</label>
